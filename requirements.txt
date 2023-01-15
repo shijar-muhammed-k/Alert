@@ -1,0 +1,10 @@
+asgiref==3.6.0
+Django==4.1.5
+django-appconf==1.0.5
+libsass==0.22.0
+load-dotenv==0.1.0
+python-dotenv==0.21.0
+rcssmin==1.1.0
+rjsmin==1.2.0
+sqlparse==0.4.3
+tzdata==2022.7

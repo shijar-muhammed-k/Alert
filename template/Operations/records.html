@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/appIcon.png' %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+        integrity="sha512-nzSGtgaJWS79WO+bCKLhowPkjbM+WI18/K4T77XPB4QPMybSKLozMFzDNPEHcWxN1dOx1gvYGKP39nXLNNZ8qg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/records.css' %}">
+    <title>Records</title>
+</head>
+<body>
+    <div>
+    {% include "Operations/navbar.html" %}
+    </div>
+    <div class="search-box">
+        <form action="">
+            {% csrf_token %}
+            <select name="" id="">
+                <option value="">Docking Date</option>
+                <option value="">Un Docking Date</option>
+            </select>
+            <label for="from-date">From Date</label>
+            <input type="date" name="from-date" title="From Date">
+            <label for="to-date">To Date</label>
+            <input type="date" name="to-date" title="To date">
+            <button type="submit" class="searchBtn">Search</button>
+        </form>
+    </div>
+    <div class="table-pagination">
+        <a href="{{month.0}}">{{month.0}}</a>
+        {{month.1}}
+        <a href="{{month.2}}">{{month.2}}</a>
+    </div>
+    <div class="table-container">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Docking Date</th>
+                <th>Un Docking Date</th>
+                <th>Reminder Date</th>
+                <th class="action">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for data in data %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="ms-3">
+                      <p class="fw-bold mb-1">{{data.name}}</p>
+                      <p class="text-muted mb-0">{{data.email}}</p>
+                      <p class="text-muted mb-0">{{data.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span {% if data.reminder_date > today and data.status == 'success'%}class = "badge-success badge rounded-pill d-inline">Sucess</span>
+                    {%elif data.reminder_date > today and data.status != 'success' %}class = 'badge-primary badge rounded-pill d-inline'>Active</span>
+                    {%elif data.reminder_date <= today and data.status != 'success' %}class = 'badge-warning badge rounded-pill d-inline'>Alert</span>
+                    {% else %} pass{% endif %}
+                </td>
+                <td>{{data.docking_date}}</td>
+                <td>
+                    <p class="fw-normal mb-1">{{data.undocking_date}}</p>
+                </td>  
+                <td>
+                    <p class="fw-normal mb-1">{{data.reminder_date}}</p>
+                </td>  
+                <td>
+                  <button type="button" id="editBtn" class="btn btn-link btn-sm btn-rounded" {% if data.status == 'success' %}disabled{% endif %}>
+                    Success
+                  </button>
+                  <button type="button" onclick="editRecord({{data.id}})" class="btn btn-link btn-sm btn-rounded">
+                    Edit
+                  </button>
+                  <button type="button" onclick="deleteRecord({{data.id}})" class="btn btn-link btn-sm btn-rounded">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js">
+    </script>
+    <script>
+        function editRecord(id) {
+            window.location.href = `editRecord${id}`
+        }
+        function deleteRecord(id) {
+            confirm('Are you sure you want to delete?', window.location.href =  `deleteRecord${id}`)
+        }
+    </script>
+</body>
+</html>
