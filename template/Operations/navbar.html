@@ -8,7 +8,7 @@
   <ul>
       <li><a href="register" class="{% if request.path == '/register' %}active {% endif %}">Home</a></li>
       <li><a href="view" class="{% if request.path == '/view' %}active {% endif %}">Record</a></li>
-      <li><a href="alert" class="{% if request.path == '/alert' %}active {% endif %}">Alert <sup>7</sup></a></li>
+      <li><a href="alert" class="{% if request.path == '/alert' %}active {% endif %}">Alert <sup>{{count}}</sup></a></li>
       <li><a href="logout">LogOut</a></li>
   </ul>
 </nav>
